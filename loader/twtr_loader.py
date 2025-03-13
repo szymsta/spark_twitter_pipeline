@@ -17,12 +17,12 @@ class TwtrLoader:
     
 
     def load_datasets(self, file_name: str) -> DataFrame:
-        label = self.LABELS.get(filename, "unknown")
+        label = self.LABELS.get(file_name, "unknown")
         return (self.spark.read.format("csv")
                 .options(header=True, inferSchema=True, delimiter=",")
                 .load(filename)
                 .withColumn("category", lit(label))
-                .na.drop())
+                .na.drop()
     
 
     def union_datasets(self) -> DataFrame:

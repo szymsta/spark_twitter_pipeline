@@ -9,7 +9,7 @@ class TwtrCleaner:
         self.spark_session = spark_session
 
 
-    def clean_dataset(self, df: DataFrame) -> DataFrame
+    def clean_dataset(self, df: DataFrame) -> DataFrame:
         return (df.withColumn("hashtags", split(regexp_replace(col("hashtags"), r'["\'\[\] ]', ""), ","))
                 .withColumn("date", col("date").cast(DateType()))
                 .withColumn("user_created", col("user_created").cast(DateType()))

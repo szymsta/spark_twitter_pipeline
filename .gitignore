@@ -1,3 +1,5 @@
 covid19_tweets.csv
 GRAMMYs_tweets.csv
 financial.csv
+__pycache__/
+*.pyc

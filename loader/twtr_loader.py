@@ -6,9 +6,9 @@ from functools import reduce
 class TwtrLoader:
 
     LABELS = {
-        "covid19_tweets.csv" = "covid",
-        "GRAMMYs_tweets.csv" = "grammys",
-        "financial.csv" = "finance"
+        "covid19_tweets.csv" : "covid",
+        "GRAMMYs_tweets.csv" : "grammys",
+        "financial.csv" : "finance"
     }
 
 
@@ -18,13 +18,13 @@ class TwtrLoader:
 
     def load_datasets(self, file_name: str) -> DataFrame:
         label = self.LABELS.get(file_name, "unknown")
-        return (self.spark.read.format("csv")
+        return (self.spark_session.read.format("csv")
                 .options(header=True, inferSchema=True, delimiter=",")
-                .load(filename)
+                .load(file_name)
                 .withColumn("category", lit(label))
-                .na.drop()
+                .na.drop())
     
 
     def union_datasets(self) -> DataFrame:
         dfs = [self.load_datasets(file) for file in self.LABELS.keys()]
-        return reduce(DataFrame.unionByName, dfs)
+        return reduce(lambda df1, df2: df1.unionByName(df2, allowMissingColumns=True), dfs)

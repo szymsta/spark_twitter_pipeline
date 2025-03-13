@@ -1,6 +1,7 @@
 # Libraries
 from pyspark.sql import SparkSession
 from loader.twtr_loader import TwtrLoader
+from cleaner.twtr_cleaner import TwtrCleaner
 
 def main():
 
@@ -11,14 +12,16 @@ def main():
         .master("local[*]")     # Run Spark locally with as many worker threads as there are cores on your machine
         .getOrCreate())         # Get or create a Spark session
 
-    # Create an instance of the TwtrLoader class, passing the SparkSession as an argument
-    all_twtr = TwtrLoader(spark)    
+    # Create and clean
+    twtr_loader = TwtrLoader(spark)
+    twtr_cleaner = TwtrCleaner(spark)
 
-    # Load datasets and merge them into a single DataFrame
-    loader = all_twtr.union_datasets()
+    # Load, merge and clean datasets
+    load_twtr = twtr_loader.union_datasets()
+    clean_twtr = twtr_cleaner.clean_dataset(load_twtr)
 
     # Display the merged DataFrame in the console
-    loader.show(5, truncate=False)
+    clean_twtr.show(5, truncate=False)
 
 
 if __name__ == "__main__":

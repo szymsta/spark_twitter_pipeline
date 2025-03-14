@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession, DataFrame
-from pyspark.sql.functions import explode_outer, col, lower
+from pyspark.sql.functions import explode_outer, col, lower, avg, count, round
 
 
 class TwtrAnalyser:
@@ -38,4 +38,15 @@ class TwtrAnalyser:
                 .groupBy(self.SOURCE_COLUMN)
                 .count()
                 .orderBy(col("count").desc())
+        )
+
+
+    def calculate_avg_followers_by_location(self, df: DataFrame) -> DataFrame:
+        return (df.select(self.USER_NAME, self.USER_LOCATION, self.USER_FOLLOWERS)
+                .filter((col(self.USER_NAME).isNotNull()) & (col(self.USER_NAME) != ""))
+                .filter((col(self.USER_LOCATION).isNotNull()) & (col(self.USER_LOCATION) != ""))
+                .dropDuplicates([self.USER_NAME])
+                .groupBy(self.USER_LOCATION)
+                .agg(round(avg(self.USER_FOLLOWERS), 2).alias("avg_followers"))
+                .orderBy(col("avg_followers").desc())
         )

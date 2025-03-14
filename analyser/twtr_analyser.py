@@ -31,3 +31,11 @@ class TwtrAnalyser:
                 .count()
                 .orderBy(col("count").desc())
         )
+    
+
+    def calculate_source(self, df: DataFrame) -> DataFrame:
+        return (df.filter((col(self.SOURCE_COLUMN).isNotNull()) & (col(self.SOURCE_COLUMN) != ""))
+                .groupBy(self.SOURCE_COLUMN)
+                .count()
+                .orderBy(col("count").desc())
+        )

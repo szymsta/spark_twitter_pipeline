@@ -23,3 +23,11 @@ class TwtrAnalyser:
                 .count()
                 .orderBy(col("count").desc())
         )
+
+
+    def calculate_retwtr(self, df: DataFrame) -> DataFrame:
+        return (df.filter((col(self.IS_RETWEET_COLUMN).isNotNull()) & (col(self.IS_RETWEET_COLUMN) != ""))
+                .groupBy(self.IS_RETWEET_COLUMN)
+                .count()
+                .orderBy(col("count").desc())
+        )

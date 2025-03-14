@@ -10,7 +10,7 @@ class TwtrCleaner:
 
 
     def clean_dataset(self, df: DataFrame) -> DataFrame:
-        return (df.withColumn("hashtags", split(regexp_replace(col("hashtags"), r'["\'\[\] ]', ""), ","))
+        return (df.withColumn("hashtags", split(regexp_replace(col("hashtags"), r'["\'\[\] _-]', ""), ","))
                 .withColumn("date", col("date").cast(DateType()))
                 .withColumn("user_created", col("user_created").cast(DateType()))
                 .withColumn("user_followers", col("user_followers").cast(LongType()))

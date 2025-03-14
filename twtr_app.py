@@ -22,30 +22,31 @@ def main():
 
     # Initialize modules
     try:
-        loader = TwtrLoader(spark)
-        cleaner = TwtrCleaner(spark)
-        analyser = TwtrAnalyser(spark)
-        searcher = TwtrSearcher(spark)
-        print("Modules initialized.")
+        loader = TwtrLoader(spark)          # Module responsible for loading data
+        cleaner = TwtrCleaner(spark)        # Module responsible for cleaning data
+        analyser = TwtrAnalyser(spark)      # Module responsible for analyzing data
+        searcher = TwtrSearcher(spark)      # Module responsible for searching and querying the data
+        print("Modules initialized.")       # Confirm successful initialization
+
     except Exception as e:
-        print(f"Error initializing modules: {e}")
-        spark.stop()
+        print(f"Error initializing modules: {e}")   # Provide the error message for debugging
+        spark.stop()                                # Stop Spark session if modules fail to initialize
         return
 
 
     # Load and clean data
     try:
         print("Loading data...")
-        load_twtr = loader.union_datasets()
+        load_twtr = loader.union_datasets()                     # Load the data using the loader module
 
         print("Cleaning data...")
-        clean_twtr = cleaner.clean_dataset(load_twtr)
+        clean_twtr = cleaner.clean_dataset(load_twtr)           # Clean the loaded data using the cleaner module
 
-        print("Data loaded and cleaned successfully.")
+        print("Data loaded and cleaned successfully.")          # Inform the user that data has been successfully loaded and cleaned
     except Exception as e:
-        print(f"Error during data loading or cleaning: {e}")
+        print(f"Error during data loading or cleaning: {e}")    # Provide the error message for debugging
 
 
-    # Call the main function to execute the script
+# Call the main function to execute the script
 if __name__ == "__main__":
     main()

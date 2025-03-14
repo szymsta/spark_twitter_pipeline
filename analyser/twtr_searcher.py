@@ -24,3 +24,9 @@ class TwtrSearcher:
             ]
             
         return df.filter(reduce(lambda x, y: x | y, search_criteria ))
+    
+
+    def search_location(self, location: str, df: DataFrame) -> DataFrame:
+        return (df.filter((col(self.USER_LOCATION).isNotNull()) & (col(self.USER_LOCATION) != ""))
+        & (lower(col(self.USER_LOCATION)) == location.lower())
+        )

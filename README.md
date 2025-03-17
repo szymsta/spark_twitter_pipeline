@@ -32,18 +32,18 @@ Detailed requirements for specific versions of Apache Spark can be found in the 
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/szymsta/spark-twitter-pipeline.git
-   cd spark-twitter-pipeline
-
+   git clone https://github.com/szymsta/spark_twitter_data.git
+   cd spark_twitter_data
+   ```
 2. Install the required Python dependencies:
    ```bash
    pip install -r requirements.txt
-
+   ```
 3. Make sure that Apache Spark and Java are correctly installed. You can verify this by running the following commands:
    ```bash
    spark-shell --version
    java --version
-
+   ```
 ## Usage
 
 To run the pipeline, execute the **twtr_app.py** script, which will initialize the Spark session, load data, clean the data, and search for tweets containing specific keywords.
@@ -53,7 +53,7 @@ To run the pipeline, execute the **twtr_app.py** script, which will initialize t
 2. Run the script:
     ```bash
     python twtr_app.py
-
+   ```
 The pipeline will:
 
 - Load and clean the data using the TwtrLoader and TwtrCleaner modules.

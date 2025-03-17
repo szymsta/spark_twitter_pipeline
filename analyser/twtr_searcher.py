@@ -38,7 +38,7 @@ class TwtrSearcher:
         :param df: The DataFrame containing the tweet data.
         :return: A DataFrame with tweets containing the specified keyword (transformation).
         """
-        return df.filter(lower(col(self.TEXT)).contains(lower(key_word)))
+        return df.filter(lower(col(self.TEXT)).contains(key_word.lower()))
     
 
     def search_keywords(self, key_words: list, df: DataFrame) -> DataFrame:
@@ -71,7 +71,9 @@ class TwtrSearcher:
         :param df: The DataFrame containing the tweet data.
         :return: A DataFrame with tweets from the specified location (transformation).
         """
-        return (df.filter((col(self.USER_LOCATION).isNotNull()) & (col(self.USER_LOCATION) != ""))
-        & (lower(col(self.USER_LOCATION)) == location.lower())
+        return (df.filter(
+                (col(self.USER_LOCATION).isNotNull()) &
+                (col(self.USER_LOCATION) != "") &
+                (lower(col(self.USER_LOCATION)) == location.lower()))
         )
         

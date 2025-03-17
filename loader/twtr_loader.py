@@ -1,5 +1,6 @@
 from pyspark.sql import SparkSession, DataFrame
-from pyspark.sql.functions import lit, reduce
+from pyspark.sql.functions import lit
+from functools import reduce
 
 
 class TwtrLoader:

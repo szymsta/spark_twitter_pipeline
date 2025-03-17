@@ -1,5 +1,6 @@
 from pyspark.sql import SparkSession, DataFrame
-from pyspark.sql.functions import col, lower, reduce
+from pyspark.sql.functions import col, lower
+from functools import reduce
 
 
 class TwtrSearcher:
@@ -73,3 +74,4 @@ class TwtrSearcher:
         return (df.filter((col(self.USER_LOCATION).isNotNull()) & (col(self.USER_LOCATION) != ""))
         & (lower(col(self.USER_LOCATION)) == location.lower())
         )
+        

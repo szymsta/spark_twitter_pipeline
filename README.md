@@ -4,14 +4,14 @@ This project implements a data processing pipeline for Twitter data using Apache
 
 ## Table of Contents
 
-- [Installation](#installation)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
-- [Modules](#modules)
-  - [TwtrLoader](#twtrloader)
-  - [TwtrCleaner](#twtrcleaner)
-  - [TwtrAnalyser](#twtranalyser)
-  - [TwtrSearcher](#twtrsearcher)
+- [Spark Twitter Data Pipeline](#spark-twitter-data-pipeline)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+    - [Requirements](#requirements)
+    - [Step-by-Step Installation](#step-by-step-installation)
+  - [Usage](#usage)
+  - [Modules](#modules)
+  - [Sample Data](#sample-data)
 
 
 ## Installation

@@ -30,8 +30,11 @@ def main():
         print("Modules initialized.")       # Confirm successful initialization
 
     except Exception as e:
-        print(f"Error initializing modules: {e}")   # Provide the error message for debugging
-        spark.stop()                                # Stop Spark session if modules fail to initialize
+        # Handle errors during data loading or cleaning
+        print(f"Error initializing modules: {e}")
+        
+        # Stop Spark session if modules fail to initialize
+        spark.stop()
         return
 
 

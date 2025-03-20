@@ -20,8 +20,9 @@ class TwtrLoader:
         """
         Initializes the TwtrLoader object.
 
-        :param spark_session: An instance of SparkSession to handle data operations.
-        """
+        Args:
+            spark_session (SparkSession): An instance of SparkSession to handle data operations.
+    """
         self.spark_session = spark_session
     
 
@@ -29,8 +30,11 @@ class TwtrLoader:
         """
         Loads a single dataset from a CSV file, adds a category column, and removes missing values.
 
-        :param file_name: The name of the CSV file to load.
-        :return: A DataFrame containing the dataset with an additional "category" column.
+        Args:
+            file_name (str): The name of the CSV file to load.
+
+        Returns:
+            DataFrame: A DataFrame containing the dataset with an additional "category" column.
         """
         label = self.LABELS.get(file_name, "unknown")
         return (self.spark_session.read.format("csv")
@@ -44,7 +48,8 @@ class TwtrLoader:
         """
         Merges all datasets into a single DataFrame while preserving column consistency.
 
-        :return: A DataFrame containing all merged datasets.
+        Returns:
+            DataFrame: A DataFrame containing all merged datasets.
         """
         dfs = [self.load_datasets(file) for file in self.LABELS.keys()]
         return reduce(lambda df1, df2: df1.unionByName(df2, allowMissingColumns=True), dfs)

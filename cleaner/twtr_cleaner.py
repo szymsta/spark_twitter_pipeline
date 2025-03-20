@@ -13,7 +13,8 @@ class TwtrCleaner:
         """
         Initializes the TwtrCleaner object.
 
-        :param spark_session: An instance of SparkSession to handle data operations.
+        Args:
+            spark_session (SparkSession): An instance of SparkSession to handle data operations.
         """
         self.spark_session = spark_session
 
@@ -25,8 +26,11 @@ class TwtrCleaner:
         - Casting the "date" and "user_created" columns to DateType.
         - Casting the "user_followers", "user_friends", and "user_favourites" columns to LongType.
 
-        :param df: The DataFrame containing the raw tweet data.
-        :return: A cleaned DataFrame with properly formatted columns.
+        Args:
+            df (DataFrame): The DataFrame containing the raw tweet data.
+
+        Returns:
+            DataFrame: A cleaned DataFrame with properly formatted columns.
         """
         return (df.withColumn("hashtags", split(regexp_replace(col("hashtags"), r'["\'\[\] _-]', ""), ","))
                 .withColumn("date", col("date").cast(DateType()))

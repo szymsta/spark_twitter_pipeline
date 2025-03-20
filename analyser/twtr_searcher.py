@@ -21,7 +21,8 @@ class TwtrSearcher:
         """
         Initializes the TwtrSearcher object with a Spark session.
 
-        :param spark_session: An instance of SparkSession to perform data analysis.
+        Args:
+            spark_session (SparkSession): An instance of SparkSession to perform data analysis.
         """
         self.spark_session: spark_session
     
@@ -32,11 +33,14 @@ class TwtrSearcher:
         This method performs the following transformations:
         - Converts the 'text' column to lowercase.
         - Filters the DataFrame to find rows where the 'text' column contains 
-          the specified keyword (case-insensitive).
+        the specified keyword (case-insensitive).
 
-        :param key_word: The keyword to search for.
-        :param df: The DataFrame containing the tweet data.
-        :return: A DataFrame with tweets containing the specified keyword (transformation).
+        Args:
+            key_word (str): The keyword to search for.
+            df (DataFrame): The DataFrame containing the tweet data.
+
+        Returns:
+            DataFrame: A DataFrame with tweets containing the specified keyword.
         """
         return df.filter(lower(col(self.TEXT)).contains(key_word.lower()))
     
@@ -48,9 +52,12 @@ class TwtrSearcher:
         - Filters the DataFrame for each keyword in the 'text' column.
         - Uses logical OR to match tweets that contain at least one of the keywords.
 
-        :param key_words: A list of keywords to search for.
-        :param df: The DataFrame containing the tweet data.
-        :return: A DataFrame with tweets containing at least one of the keywords (transformation).
+        Args:
+            key_words (list): A list of keywords to search for.
+            df (DataFrame): The DataFrame containing the tweet data.
+
+        Returns:
+            DataFrame: A DataFrame with tweets containing at least one of the keywords.
         """
         search_criteria = [
             (col(self.TEXT).isNotNull() & (col(self.TEXT) != ""))
@@ -65,11 +72,14 @@ class TwtrSearcher:
         Searches for tweets from a specific location (transformation).
         This method performs the following transformations:
         - Filters the DataFrame to find rows where the 'user_location' column 
-          matches the specified location (case-insensitive).
+        matches the specified location (case-insensitive).
         
-        :param location: The location to search for.
-        :param df: The DataFrame containing the tweet data.
-        :return: A DataFrame with tweets from the specified location (transformation).
+        Args:
+            location (str): The location to search for.
+            df (DataFrame): The DataFrame containing the tweet data.
+
+        Returns:
+            DataFrame: A DataFrame with tweets from the specified location.
         """
         return (df.filter(
                 (col(self.USER_LOCATION).isNotNull()) &

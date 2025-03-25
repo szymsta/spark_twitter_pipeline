@@ -1,11 +1,20 @@
 # Import libraries
 from pyspark.sql import SparkSession
+import logging
 
 # Import internal modules
 from loader.twtr_loader import TwtrLoader
 from cleaner.twtr_cleaner import TwtrCleaner
 from analyser.twtr_analyser import TwtrAnalyser
 from analyser.twtr_searcher import TwtrSearcher
+
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,    # Set the logging level to INFO 
+    format='%(asctime)s - %(levelname)s - %(message)s', # Define the format for log messages
+    handlers=[logging.FileHandler("process.log"), logging.StreamHandler()]  # Set up two handlers: to a file and to the console
+)
 
 
 def main():
@@ -18,20 +27,20 @@ def main():
         .getOrCreate()                      # Get or create a Spark session
         )
 
-    print("Spark session initialized.")
+    logging.info("Spark session initialized.")
 
 
     # Initialize modules
     try:
-        loader = TwtrLoader(spark)          # Module responsible for loading data
-        cleaner = TwtrCleaner(spark)        # Module responsible for cleaning data
-        analyser = TwtrAnalyser(spark)      # Module responsible for analyzing data
-        searcher = TwtrSearcher(spark)      # Module responsible for searching and querying the data
-        print("Modules initialized.")       # Confirm successful initialization
+        loader = TwtrLoader(spark)              # Module responsible for loading data
+        cleaner = TwtrCleaner(spark)            # Module responsible for cleaning data
+        analyser = TwtrAnalyser(spark)          # Module responsible for analyzing data
+        searcher = TwtrSearcher(spark)          # Module responsible for searching and querying the data
+        logging.info("Modules initialized.")    # Confirm successful initialization
 
     except Exception as e:
         # Handle errors during data loading or cleaning
-        print(f"Error initializing modules: {e}")
+        logging.error(f"Error initializing modules: {e}")
         
         # Stop Spark session if modules fail to initialize
         spark.stop()
@@ -40,20 +49,20 @@ def main():
 
     # Load and clean data
     try:
-        print("Loading data...")
+        logging.info("Loading data...")
         # Load the data using the loader module and cache it for better performance
         load_twtr = loader.union_datasets().cache()
 
-        print("Cleaning data...")
+        logging.info("Cleaning data...")
         # Clean the loaded data using the cleaner module
         clean_twtr = cleaner.clean_dataset(load_twtr)
         
         # Notify that data has been processed
-        print("Data loaded and cleaned successfully.")
+        logging.info("Data loaded and cleaned successfully.")
 
     except Exception as e:
         # Handle errors during data loading or cleaning
-        print(f"Error during data loading/cleaning: {e}")
+        logging.error(f"Error initializing modules: {e}")
 
         # Stop Spark session if modules fail to initialize
         spark.stop()    
@@ -63,28 +72,28 @@ def main():
     # Analyze data and show top 5
     try:
         # Usage 1 - Analyze most frequent hashtags in the dataset
-        print("Analyzing most frequent hashtags...")
+        logging.info("Analyzing most frequent hashtags...")
         hashtags_df = analyser.calculate_hashtags(clean_twtr)
         hashtags_df.show(5)
         
         # Usage 2 - Analyze retweet counts
-        print("Analyzing retweet counts...")
+        logging.info("Analyzing retweet counts...")
         retweet_df = analyser.calculate_retwtr(clean_twtr)
         retweet_df.show(5)
 
         # Usage 3 - Analyze tweet sources
-        print("Analyzing tweet sources...")
+        logging.info("Analyzing tweet sources...")
         source_df = analyser.calculate_source(clean_twtr)
         source_df.show(5)
 
         # Usage 4 - Analyze average followers by user location
-        print("Analyzing average followers by location...")
+        logging.info("Analyzing average followers by location...")
         avg_followers_df = analyser.calculate_avg_followers_by_location(clean_twtr)
         avg_followers_df.show(5)
 
     except Exception as e:
         # Handle errors during the search operation
-        print(f"Error during data search: {e}")
+        logging.error(f"Error initializing modules: {e}")
 
         # Stop Spark session if error occurs during the search
         spark.stop()
@@ -93,7 +102,7 @@ def main():
 
     # Usage 5 - Search the data for tweets containing specific keywords and get the sources
     try:
-        print("Searching for tweets containing keywords...")
+        logging.info("Searching for tweets containing keywords...")
 
         # Step 1: Define the list of keywords to search for
         key_words = ["elonmusk", "musk", "teslamotors", "tesla"]
@@ -106,7 +115,7 @@ def main():
     
     except Exception as e:
         # Handle errors during the search operation
-        print(f"Error during data search: {e}")
+        logging.error(f"Error initializing modules: {e}")
 
         # Stop Spark session if error occurs during the search
         spark.stop()
@@ -115,7 +124,7 @@ def main():
 
     # Usage 6 - Search tweets containing specific keyword and location
     try:
-        print("Searching for tweets containing keyword and location...")
+        logging.info("Searching for tweets containing keyword and location...")
 
         # Step 1: Define keyword and location to search for
         key_word  = "Trump"
@@ -132,13 +141,14 @@ def main():
 
     except Exception as e:
         # Handle errors during the search operation
-        print(f"Error during data search: {e}")
+        logging.error(f"Error initializing modules: {e}")
 
         # Stop Spark session if error occurs during the search
         spark.stop()
         return
 
 
-# Call the main function to execute the script
+# Start the main pipeline and log the process initiation
 if __name__ == "__main__":
+    logging.info("Starting Twitter data pipeline...")
     main()

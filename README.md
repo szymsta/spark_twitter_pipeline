@@ -77,7 +77,8 @@ Here's a breakdown of the project files:
   ├── README.md              # Project documentation
   ├── covid19_tweets.csv     # Sample dataset containing COVID-19 tweets
   ├── financial.csv          # Sample dataset containing financial tweets
-  └── GRAMMYs_tweets.csv     # Sample dataset containing grammys tweets
+  ├── GRAMMYs_tweets.csv     # Sample dataset containing grammys tweets
+  └── process.log            # Example log file generated during execution
 ```
 
 ## Modules
@@ -101,5 +102,7 @@ Here's a breakdown of the project files:
 ## Sample Data
 
 This project includes sample datasets to test the pipeline and demonstrate its functionality. These sample datasets are stored in the main folder and can be used to run the pipeline and verify its functionality. The datasets contain Twitter data such as tweet text, user information, hashtags, and other relevant details.
+
+Additionally, the project includes a sample log file (`process.log`) that contains example log messages generated during execution. This file serves as a reference for monitoring the pipeline's behavior.
 
 Please ensure that the paths to these datasets are correctly set in the script for proper loading and processing.

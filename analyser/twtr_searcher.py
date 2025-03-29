@@ -10,6 +10,9 @@ class TwtrSearcher:
     keywords and tweets from a specific location in the dataset.
 
     Attributes:
+        spark_session (SparkSession): The Spark session used for executing DataFrame operations.
+
+    Constants:
     TEXT (str): The column name for tweet text.
     USER_LOCATION (str): The column name for the user's location.
     """

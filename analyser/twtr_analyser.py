@@ -6,6 +6,17 @@ class TwtrAnalyser:
     """
     Class for analyzing Twitter data, such as calculating the most common hashtags, retweets, 
     sources, and average followers by location.
+
+    Attributes:
+        spark_session (SparkSession): The Spark session used for executing DataFrame operations.
+
+    Constants:
+        HASHTAG_COLUMN (str): The column name for hashtags.
+        IS_RETWEET_COLUMN (str): The column name that indicates whether a tweet is a retweet.
+        SOURCE_COLUMN (str): The column name for the tweet's source.
+        USER_FOLLOWERS (str): The column name for the number of followers the user has.
+        USER_NAME (str): The column name for the user's name.
+        USER_LOCATION (str): The column name for the user's location.
     """
 
     HASHTAG_COLUMN = "hashtags"

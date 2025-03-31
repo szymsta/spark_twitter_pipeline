@@ -7,6 +7,15 @@ class TwtrLoader:
     """
     The TwtrLoader class is responsible for loading and processing tweet datasets.
     It supports loading CSV files, adding category labels, and merging datasets into a single DataFrame.
+
+    Attributes:
+        spark_session (SparkSession): The Spark session used for performing DataFrame operations.
+
+    Constants:
+        LABELS (dict[str, str]): A dictionary that maps CSV file names to their corresponding category labels.
+            - "covid19_tweets.csv": "covid"
+            - "GRAMMYs_tweets.csv": "grammys"
+            - "financial.csv": "finance"
     """
 
     LABELS: dict[str, str] = {
